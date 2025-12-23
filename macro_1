@@ -77,7 +77,7 @@ Sub Part1_PrepareData()
         End If
     Next i
     
-    MsgBox "Did all amounts from column E get moved? If yes, run the next macro. If no, move amounts to the appropriate column before running the next macro.", vbInformation
+    MsgBox "Did all Gift Amounts get moved? If yes, run the next macro. If no, move amounts to the appropriate column before running the next macro.", vbInformation
 End Sub
 
 
