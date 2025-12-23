@@ -84,23 +84,28 @@ Sub Part2_InsertRows()
 
     ' Insert a new column between A and B
     ws.Columns("B:B").Insert Shift:=xlRight
+    
+    ' Find the last row with data in column C
+    lastRow = ws.Cells(ws.Rows.Count, "C").End(xlUp).Row
 
     ' Concatenate columns C and D into column B
+    ' !!!If column D is empty don't concat. Just use column C
     For i = 1 To lastRow
         ws.Cells(i, 2).Value = ws.Cells(i, 3).Value & ", " & ws.Cells(i, 4).Value
     Next i
     
     ' Remove trailing commas from column B
-    For i = 1 To lastRow
-        If Right(ws.Cells(i, 2).Value, 1) = "," Then
-            ws.Cells(i, 2).Value = Left(ws.Cells(i, 2).Value, Len(ws.Cells(i, 2).Value) - 1)
-        End If
-    Next i
-
-    ' Delete columns C, D, E
-    ws.Columns("C:E").Delete Shift:=xlLeft
+    ' !!!Delete this later
+    'For i = 1 To lastRow
+    '    If Right(ws.Cells(i, 2).Value, 1) = ", " Then
+    '        ws.Cells(i, 2).Value = Left(ws.Cells(i, 2).Value, Len(ws.Cells(i, 2).Value) - 1)
+    '    End If
+    'Next i
     
-    ' Find the last row with data in column A
+    ' Delete columns C, D, E, F, G, H
+    ws.Columns("C:H").Delete Shift:=xlLeft
+    
+        ' Find the last row with data in column A
     lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
     
     ' Start from the bottom and work upwards to avoid row number shifts
@@ -121,11 +126,41 @@ Sub Part2_InsertRows()
         End If
     Next i
     
+    ' !!!Add "Total" below last date
+    
     ' Change font to Arial Narrow and Black for entire worksheet
     With ws.Cells.Font
         .Name = "Arial Narrow"
         .Color = RGB(0, 0, 0) ' Black
     End With
+    
+    ' Align left, align top, and turn off text wrapping for entire spreadsheet
+    ws.Cells.HorizontalAlignment = xlLeft
+    ws.Cells.VerticalAlignment = xlTop
+    ws.Cells.WrapText = False
+    
+    ' Right adjust columns C through H
+    ws.Range("C:H").HorizontalAlignment = xlRight
+    
+    ' Auto-fit all columns
+    ws.Cells.EntireColumn.AutoFit
+    
+    
+    ' Apply accounting format to columns C through H
+    ' !!!Not working
+    'ws.Range("C:H").NumberFormat = "_-* #,##0.00_-;-* #,##0.00_-;_-* ""-""??_-;_-@_-"
+    
+    
 End Sub
 
-' accounting format, right/left adjust, top, unwrap text
+Sub Part3()
+    
+
+   
+    
+
+    
+   
+
+' accounting format
+
