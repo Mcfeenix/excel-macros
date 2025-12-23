@@ -91,6 +91,9 @@ Sub Part2_InsertRows()
     
     ' Set the worksheet to the active sheet
     Set ws = ActiveSheet
+
+    ' Delete columns C, D, E
+    ws.Columns("C:E").Delete Shift:=xlLeft
     
     ' Find the last row with data in column A
     lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
@@ -106,11 +109,9 @@ Sub Part2_InsertRows()
             If currentDate <> nextDate Then
                 ws.Rows(i + 1 & ":" & i + 3).Insert Shift:=xlDown
                 
-                ' Add "Total" in bold to the first cell of the inserted rows
-                With ws.Cells(i + 1, 1)
-                    .Value = "Total"
-                    .Font.Bold = True
-                End With
+                ' Add "Total" to the first cell and make the entire row bold
+                ws.Cells(i + 1, 1).Value = "Total"
+                ws.Rows(i + 1).Font.Bold = True
             End If
         End If
     Next i
