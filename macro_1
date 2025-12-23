@@ -127,3 +127,5 @@ Sub Part2_InsertRows()
         .Color = RGB(0, 0, 0) ' Black
     End With
 End Sub
+
+' accounting format, right/left adjust, top, unwrap text
