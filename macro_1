@@ -30,9 +30,6 @@ Sub Part1_PrepareData()
     ActiveWindow.FreezePanes = True
     ws.Cells(1, 1).Select ' Return to cell A1
     
-    ' Insert a new column between A and B
-    ws.Columns("B:B").Insert Shift:=xlRight
-    
     ' Find the last row with data in column A
     lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
     
@@ -84,6 +81,9 @@ Sub Part2_InsertRows()
     
     ' Set the worksheet to the active sheet
     Set ws = ActiveSheet
+
+    ' Insert a new column between A and B
+    ws.Columns("B:B").Insert Shift:=xlRight
 
     ' Concatenate columns C and D into column B
     For i = 1 To lastRow
