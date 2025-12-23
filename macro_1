@@ -12,12 +12,12 @@ Sub Part1_PrepareData()
     ' Copy the current sheet
     ws.Copy After:=ws
     
-    ' Rename the original sheet to " - raw"
-    ws.Name = originalName & " - raw"
+    ' Rename the original sheet to "Transactions - raw"
+    ' ws.Name = originalName & "Transactions - raw"
     
     ' Set the copied sheet as the clean sheet and rename it
     Set wsClean = ActiveSheet
-    wsClean.Name = originalName & " - clean"
+    wsClean.Name = "Transactions - clean"
     
     ' Set the active sheet to the clean sheet for remaining operations
     Set ws = wsClean
@@ -33,7 +33,7 @@ Sub Part1_PrepareData()
     
     ' Concatenate columns C and D into column B
     For i = 1 To lastRow
-        ws.Cells(i, 2).Value = ws.Cells(i, 3).Value & ws.Cells(i, 4).Value
+        ws.Cells(i, 2).Value = ws.Cells(i, 3).Value & ", " & ws.Cells(i, 4).Value
     Next i
     
     ' Remove trailing commas from column B
@@ -43,36 +43,44 @@ Sub Part1_PrepareData()
         End If
     Next i
     
-    ' Move values from column E based on column F payment type
+    ' Move values from column F (Gift Amount) based on column G (Gift Type)
     For i = 1 To lastRow
-        Dim paymentType As String
+        Dim giftType As String
         Dim amount As Variant
         
-        paymentType = Trim(UCase(ws.Cells(i, 6).Value)) ' Column F
-        amount = ws.Cells(i, 5).Value ' Column E
+        giftType = Trim(UCase(ws.Cells(i, 7).Value)) ' Column G
+        amount = ws.Cells(i, 6).Value ' Column F
         
-        ' Check if payment type contains Visa, MasterCard, Discover, or Credit Card
-        If InStr(1, paymentType, "VISA", vbTextCompare) > 0 Or _
-           InStr(1, paymentType, "MASTERCARD", vbTextCompare) > 0 Or _
-           InStr(1, paymentType, "DISCOVER", vbTextCompare) > 0 Or _
-           InStr(1, paymentType, "CREDIT CARD", vbTextCompare) > 0 Then
-            ws.Cells(i, 7).Value = amount ' Move to column G
-            ws.Cells(i, 5).ClearContents ' Clear column E
-        ElseIf InStr(1, paymentType, "CHECK", vbTextCompare) > 0 Then
-            ws.Cells(i, 8).Value = amount ' Move to column H
-            ws.Cells(i, 5).ClearContents ' Clear column E
-        ElseIf InStr(1, paymentType, "STOCK", vbTextCompare) > 0 Or _
-               InStr(1, paymentType, "EFT", vbTextCompare) > 0 Then
+        ' Check if gift type contains Visa, MasterCard, Discover, or Credit Card
+        If InStr(1, giftType, "VISA", vbTextCompare) > 0 Or _
+           InStr(1, giftType, "MASTERCARD", vbTextCompare) > 0 Or _
+           InStr(1, giftType, "DISCOVER", vbTextCompare) > 0 Or _
+           InStr(1, giftType, "CREDIT CARD", vbTextCompare) > 0 Then
+            ws.Cells(i, 11).Value = amount ' Move to column K
+            ws.Cells(i, 6).ClearContents ' Clear column F
+        ElseIf InStr(1, giftType, "CHECK", vbTextCompare) > 0 Then
             ws.Cells(i, 9).Value = amount ' Move to column I
-            ws.Cells(i, 5).ClearContents ' Clear column E
-        ElseIf InStr(1, paymentType, "CASH", vbTextCompare) > 0 Then
+            ws.Cells(i, 6).ClearContents ' Clear column F
+        ElseIf InStr(1, giftType, "STOCK", vbTextCompare) > 0 Or _
+               InStr(1, giftType, "EFT", vbTextCompare) > 0 Then
+            ws.Cells(i, 13).Value = amount ' Move to column M
+            ws.Cells(i, 6).ClearContents ' Clear column F
+        ElseIf InStr(1, giftType, "CASH", vbTextCompare) > 0 Then
             ws.Cells(i, 10).Value = amount ' Move to column J
-            ws.Cells(i, 5).ClearContents ' Clear column E
+            ws.Cells(i, 6).ClearContents ' Clear column F
+        ElseIf InStr(1, giftType, "ACH", vbTextCompare) > 0 Then
+            ws.Cells(i, 12).Value = amount ' Move to column L
+            ws.Cells(i, 6).ClearContents ' Clear column F
+        ElseIf InStr(1, giftType, "GIFT IN KIND", vbTextCompare) > 0 Then
+            ws.Cells(i, 14).Value = amount ' Move to column N
+            ws.Cells(i, 6).ClearContents ' Clear column F
         End If
     Next i
     
     MsgBox "Did all amounts from column E get moved? If yes, run the next macro. If no, move amounts to the appropriate column before running the next macro.", vbInformation
 End Sub
+
+
 
 Sub Part2_InsertRows()
     Dim ws As Worksheet
