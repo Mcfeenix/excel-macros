@@ -24,6 +24,11 @@ Sub Part1_PrepareData()
     
     ' Delete the first row
     ws.Rows(1).Delete Shift:=xlUp
+
+    ' Freeze the first row
+    ws.Rows(2).Select
+    ActiveWindow.FreezePanes = True
+    ws.Cells(1, 1).Select ' Return to cell A1
     
     ' Insert a new column between A and B
     ws.Columns("B:B").Insert Shift:=xlRight
