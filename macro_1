@@ -1,4 +1,4 @@
-Sub Part1_PrepareData()
+Sub Part1_MoveGiftAmounts()
     Dim ws As Worksheet
     Dim wsClean As Worksheet
     Dim lastRow As Long
@@ -72,7 +72,7 @@ End Sub
 
 
 
-Sub Part2_InsertRows()
+Sub Part2_FormatSpreadsheet()
     Dim ws As Worksheet
     Dim lastRow As Long
     Dim i As Long
